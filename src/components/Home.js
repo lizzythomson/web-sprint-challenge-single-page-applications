@@ -6,8 +6,8 @@ export default function Home() {
     <div className="home-container">
       <div className="main-home-div">
         <h1>Your favorite food, delivered while coding</h1>
-        <button className="pizza-button" id="order-pizza">
-          <Link to="/pizza" className="link">
+        <button className="pizza-button">
+          <Link to="/pizza" className="link" id="order-pizza">
             Pizza?
           </Link>
         </button>

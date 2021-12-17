@@ -61,8 +61,6 @@ describe("Form Test", () => {
       specialInput().type("Please do not cut the pizza");
       submitBtn().click();
       cy.contains("John Doe").should("exist");
-      cy.contains("John Doe").next().next().click();
-      cy.contains("John Doe").should("not.exist");
     });
   });
 });

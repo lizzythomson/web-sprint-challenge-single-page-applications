@@ -1,17 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
+import formSchema from "./formSchema";
+import RecentOrder from "./RecentOrder";
+import * as yup from "yup";
+import axios from "axios";
 
-export default function OrderPizza(props) {
-  const { values, submit, change, disabled, errors } = props;
+const initialFormValues = {
+  name: "",
+  size: "",
+  pepperoni: false,
+  sausage: false,
+  pineapple: false,
+  tomatoes: false,
+  olives: false,
+  special: "",
+};
 
-  const onSubmit = (evt) => {
-    evt.preventDefault();
-    submit();
+export default function OrderPizza() {
+  const [orders, setOrders] = useState([]);
+  const [formValues, setFormValues] = useState(initialFormValues);
+  const [formErrors, setFormErrors] = useState({});
+
+  const createOrder = (newOrder) => {
+    axios
+      .post("https://reqres.in/api/orders", newOrder)
+      .then((res) => {
+        setOrders([...orders, res.data]);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setFormValues(initialFormValues));
+  };
+
+  const validate = (name, value) => {
+    yup
+      .reach(formSchema, name)
+      .validate(value)
+      .then(() => setFormErrors({ ...formErrors, [name]: "" }))
+      .catch((error) => {
+        setFormErrors({ ...formErrors, [name]: error.message });
+      });
   };
 
   const onChange = (event) => {
     const { name, value, checked, type } = event.target;
     const valueToUse = type === "checkbox" ? checked : value;
-    change(name, valueToUse);
+    inputChange(name, valueToUse);
+  };
+
+  const inputChange = (name, value) => {
+    validate(name, value);
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const onSubmit = (evt) => {
+    evt.preventDefault();
+
+    const newOrder = {
+      name: formValues.name,
+      size: formValues.size,
+      pepperoni: formValues.pepperoni,
+      sausage: formValues.sausage,
+      pineapple: formValues.pineapple,
+      tomatoes: formValues.tomatoes,
+      olives: formValues.olives,
+      special: formValues.special,
+    };
+    createOrder(newOrder);
   };
 
   return (
@@ -29,20 +82,23 @@ export default function OrderPizza(props) {
             <h3>Name</h3>
             <input
               id="name-input"
-              name="name-input"
+              name="name"
               type="text"
               placeholder="type your name"
               onChange={onChange}
-              values={values.name}
+              values={formValues.name}
             />
           </label>
+          <div className="error">
+            <div>{formErrors.name}</div>
+          </div>
           <label name="size-dropdown">
             <h3>Select a Size</h3>
             <select
               id="size-dropdown"
               name="size"
               onChange={onChange}
-              values={values.size}
+              values={formValues.size}
             >
               <option value="">-- Select --</option>
               <option value="Small">Small</option>
@@ -57,7 +113,7 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="pepperoni"
-              checked={values.pepperoni}
+              checked={formValues.pepperoni}
               onChange={onChange}
             />
           </label>
@@ -67,7 +123,7 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="sausage"
-              checked={values.sausage}
+              checked={formValues.sausage}
               onChange={onChange}
             />
           </label>
@@ -77,7 +133,7 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="pineapple"
-              checked={values.pineapple}
+              checked={formValues.pineapple}
               onChange={onChange}
             />
           </label>
@@ -86,7 +142,7 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="tomatoes"
-              checked={values.tomatoes}
+              checked={formValues.tomatoes}
               onChange={onChange}
             />
           </label>
@@ -95,14 +151,14 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="olives"
-              checked={values.olives}
+              checked={formValues.olives}
               onChange={onChange}
             />
           </label>
           <label>
             <h3>Special Instructions</h3>
             <input
-              value={values.special}
+              value={formValues.special}
               onChange={onChange}
               name="special"
               className="special"
@@ -110,15 +166,17 @@ export default function OrderPizza(props) {
               type="text"
             />
           </label>
-          <div className="error">
-            <div>{errors.name}</div>
-            <div>{errors.size}</div>
-          </div>
-          <button id="order-button" disabled={disabled}>
-            Add to Order
-          </button>
+          <button id="order-button">Add to Order</button>
         </div>
       </form>
+      <div className="recent-orders-container">
+        <h2>Recent Orders</h2>
+        {orders.map((order) => {
+          return order ? (
+            <RecentOrder key={order.name} details={order} />
+          ) : null;
+        })}
+      </div>
     </div>
   );
 }
