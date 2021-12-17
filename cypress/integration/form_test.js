@@ -1,4 +1,4 @@
-describe("BloomTech Eats App", () => {
+describe("Form Test", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3001/pizza");
   });

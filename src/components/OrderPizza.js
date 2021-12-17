@@ -1,18 +1,18 @@
 import React from "react";
 
 export default function OrderPizza(props) {
-  // const { values, submit, change, disabled } = props;
+  const { values, submit, change, disabled, errors } = props;
 
-  // const onChange = (evt) => {
-  //   const { name, value, checked, type } = evt.target;
-  //   const valueToUse = type === "checkbox" ? checked : value;
-  //   change(name, valueToUse);
-  // };
+  const onSubmit = (evt) => {
+    evt.preventDefault();
+    submit();
+  };
 
-  // const onSubmit = (evt) => {
-  //   evt.preventDefault();
-  //   submit();
-  // };
+  const onChange = (event) => {
+    const { name, value, checked, type } = event.target;
+    const valueToUse = type === "checkbox" ? checked : value;
+    change(name, valueToUse);
+  };
 
   return (
     <div className="order-pizza-form">
@@ -23,7 +23,7 @@ export default function OrderPizza(props) {
         className="pizza-order-img"
       ></img>
       <h2>Build Your Own Pizza</h2>
-      <form className="form-container" id="pizza-form" /*onSubmit={onSubmit}*/>
+      <form className="form-container" id="pizza-form" onSubmit={onSubmit}>
         <div className="form-inputs">
           <label>
             <h3>Name</h3>
@@ -32,15 +32,18 @@ export default function OrderPizza(props) {
               name="name-input"
               type="text"
               placeholder="type your name"
+              onChange={onChange}
+              values={values.name}
             />
           </label>
-          <label
-            // onChange={onChange}
-            // values={values.size}
-            name="size-dropdown"
-          >
+          <label name="size-dropdown">
             <h3>Select a Size</h3>
-            <select id="size-dropdown" name="size">
+            <select
+              id="size-dropdown"
+              name="size"
+              onChange={onChange}
+              values={values.size}
+            >
               <option value="">-- Select --</option>
               <option value="Small">Small</option>
               <option value="Medium">Medium</option>
@@ -54,8 +57,8 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="pepperoni"
-              // checked={values.pepperoni}
-              // onChange={onChange}
+              checked={values.pepperoni}
+              onChange={onChange}
             />
           </label>
 
@@ -64,8 +67,8 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="sausage"
-              // checked={values.sausage}
-              // onChange={onChange}
+              checked={values.sausage}
+              onChange={onChange}
             />
           </label>
 
@@ -74,8 +77,8 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="pineapple"
-              // checked={values.pineapple}
-              // onChange={onChange}
+              checked={values.pineapple}
+              onChange={onChange}
             />
           </label>
           <label>
@@ -83,8 +86,8 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="tomatoes"
-              // checked={values.tomatoes}
-              // onChange={onChange}
+              checked={values.tomatoes}
+              onChange={onChange}
             />
           </label>
           <label>
@@ -92,22 +95,28 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="olives"
-              // checked={values.olives}
-              // onChange={onChange}
+              checked={values.olives}
+              onChange={onChange}
             />
           </label>
           <label>
             <h3>Special Instructions</h3>
             <input
-              // value={values.special}
-              // onChange={onChange}
+              value={values.special}
+              onChange={onChange}
               name="special"
               className="special"
               id="special-text"
               type="text"
             />
           </label>
-          <button id="order-button">Add to Order</button>
+          <div className="error">
+            <div>{errors.name}</div>
+            <div>{errors.size}</div>
+          </div>
+          <button id="order-button" disabled={disabled}>
+            Add to Order
+          </button>
         </div>
       </form>
     </div>
