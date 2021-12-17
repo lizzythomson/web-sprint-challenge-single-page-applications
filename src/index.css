@@ -109,3 +109,21 @@ button:hover {
   height: 300px;
   object-fit: cover;
 }
+
+.order-pizza-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.special {
+  height: 60px;
+  width: 300px;
+}

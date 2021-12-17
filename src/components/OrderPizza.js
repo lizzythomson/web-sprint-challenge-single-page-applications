@@ -1,32 +1,32 @@
 import React from "react";
 
 export default function OrderPizza(props) {
-  const { values, submit, change, disabled, errors } = props;
+  // const { values, submit, change, disabled } = props;
 
-  const onChange = (evt) => {
-    const { name, value, checked, type } = evt.target;
-    const valueToUse = type === "checkbox" ? checked : value;
-    change(name, valueToUse);
-  };
+  // const onChange = (evt) => {
+  //   const { name, value, checked, type } = evt.target;
+  //   const valueToUse = type === "checkbox" ? checked : value;
+  //   change(name, valueToUse);
+  // };
 
-  const onSubmit = (evt) => {
-    evt.preventDefault();
-    submit();
-  };
+  // const onSubmit = (evt) => {
+  //   evt.preventDefault();
+  //   submit();
+  // };
 
   return (
     <div className="order-pizza-form">
-      <h1>Build Your Pizza</h1>
+      <h1>Create a Pizza</h1>
       <img
         src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=781&q=80"
         alt="pineapple pizza"
         className="pizza-order-img"
       ></img>
       <h2>Build Your Own Pizza</h2>
-      <form className="form-container" id="pizza-form" onSubmit={onSubmit}>
+      <form className="form-container" id="pizza-form" /*onSubmit={onSubmit}*/>
         <div className="form-inputs">
           <label>
-            Name
+            <h3>Name</h3>
             <input
               id="name-input"
               name="name-input"
@@ -35,14 +35,12 @@ export default function OrderPizza(props) {
             />
           </label>
           <label
-            onChange={onChange}
-            values={values.size}
-            id="size-dropdown"
+            // onChange={onChange}
+            // values={values.size}
             name="size-dropdown"
           >
-            <p className="regular-title">Choice of Size</p>
-            <p className="small-title">Required</p>
-            <select name="size">
+            <h3>Select a Size</h3>
+            <select id="size-dropdown" name="size">
               <option value="">-- Select --</option>
               <option value="Small">Small</option>
               <option value="Medium">Medium</option>
@@ -50,13 +48,14 @@ export default function OrderPizza(props) {
               <option value="Extra Large">Extra Large</option>
             </select>
           </label>
+          <h3>Toppings</h3>
           <label>
             Pepperoni
             <input
               type="checkbox"
               name="pepperoni"
-              checked={values.pepperoni}
-              onChange={onChange}
+              // checked={values.pepperoni}
+              // onChange={onChange}
             />
           </label>
 
@@ -65,8 +64,8 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="sausage"
-              checked={values.sausage}
-              onChange={onChange}
+              // checked={values.sausage}
+              // onChange={onChange}
             />
           </label>
 
@@ -75,8 +74,8 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="pineapple"
-              checked={values.pineapple}
-              onChange={onChange}
+              // checked={values.pineapple}
+              // onChange={onChange}
             />
           </label>
           <label>
@@ -84,8 +83,8 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="tomatoes"
-              checked={values.tomatoes}
-              onChange={onChange}
+              // checked={values.tomatoes}
+              // onChange={onChange}
             />
           </label>
           <label>
@@ -93,21 +92,22 @@ export default function OrderPizza(props) {
             <input
               type="checkbox"
               name="olives"
-              checked={values.olives}
-              onChange={onChange}
+              // checked={values.olives}
+              // onChange={onChange}
             />
           </label>
           <label>
-            Special Instructions
+            <h3>Special Instructions</h3>
             <input
-              value={values.special}
-              onChange={onChange}
+              // value={values.special}
+              // onChange={onChange}
               name="special"
+              className="special"
               id="special-text"
               type="text"
             />
           </label>
-          <button disabled={disabled}>Add to Order</button>
+          <button id="order-button">Add to Order</button>
         </div>
       </form>
     </div>

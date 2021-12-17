@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, Route } from "react-router-dom";
-import OrderPizza from "./OrderPizza";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -11,9 +10,6 @@ export default function Home() {
           <Link to="/pizza" className="link">
             Pizza?
           </Link>
-          <Route exact path="/pizza">
-            <OrderPizza></OrderPizza>
-          </Route>
         </button>
       </div>
       <div className="main-content-container">
