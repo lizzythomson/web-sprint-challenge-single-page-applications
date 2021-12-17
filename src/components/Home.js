@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
+import OrderPizza from "./OrderPizza";
 
 export default function Home() {
   return (
@@ -7,9 +8,12 @@ export default function Home() {
       <div className="main-home-div">
         <h1>Your favorite food, delivered while coding</h1>
         <button className="pizza-button" id="order-pizza">
-          <Link to="/pizza/:id" className="link">
+          <Link to="/pizza" className="link">
             Pizza?
           </Link>
+          <Route exact path="/pizza">
+            <OrderPizza></OrderPizza>
+          </Route>
         </button>
       </div>
       <div className="main-content-container">
